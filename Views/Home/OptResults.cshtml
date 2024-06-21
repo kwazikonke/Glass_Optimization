@@ -1,0 +1,75 @@
+﻿@model List<GlassOpt.Models.StockSheet>
+    <head>
+        <title>Glass Cutting Optimization Results</title>
+        <style>
+            table {
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            th, td {
+                border: 1px solid black;
+                padding: 8px;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 class="text-center">Glass Cutting Optimization Results</h1>
+
+        <h2>Optimized Stock Sheets:</h2>
+        <table id="myTable">
+            <thead>
+                <tr>
+                    <th>Stock Sheet Number</th>
+                    <th>Dimensions (Width x Height)</th>
+                    <th>Quantity Used</th>
+                    <th>Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var sheet in Model)
+                {
+                <tr>
+                    <td>@sheet.StockSheet_Id</td>
+                    <td>@sheet.Width mm x @sheet.Height mm</td>
+                    <td>@sheet.AllocatedPanels.Sum(p => p.Qty)</td>
+                    <td>R @sheet.Cost.ToString("N2")</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+        <br>
+        <h2>Panel Allocation Details:</h2>
+        <table id="myTable2">
+            <thead>
+                <tr>
+                    <th>Panel Dimensions (Width x Height)</th>
+                    <th>Allocated Stock Sheet</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var sheet in Model)
+                {
+                foreach (var panel in sheet.AllocatedPanels)
+                {
+                <tr>
+                    <td>@panel.Width mm x @panel.Height mm</td>
+                    <td>@sheet.StockSheet_Id</td>
+                </tr>
+                }
+                }
+            </tbody>
+        </table>
+    </body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let table = new DataTable('#myTable', { dom: 'Bfrtip',buttons: ['csv', 'excel']});
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let table = new DataTable('#myTable2', { buttons: ['csv', 'excel']});
+        });
+    </script>
+

@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@if (TempData["AlertMessage"] != null)
+{
+    <script>
+        swal({
+            title: "Oops!",
+            text: "@TempData["AlertMessage"]",
+            icon: "error",
+            button: "OK",
+        });
+    </script>
+}
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Upload only Text Files(.txt).</p>
+</div>
+<form asp-action="Optimize" method="post" enctype="multipart/form-data">
+    <div>
+        <label for="file" class="form-label">Upload Text File:</label>
+        <input class="form-control form-control-lg" id="file" type="file" name="file">
+    </div><br />
+    <div>
+        <div class="col-3">
+            <button type="submit" class="btn btn-dark text-lg-center">Optimize Cutting</button>
+        </div>
+    </div>
+</form>
